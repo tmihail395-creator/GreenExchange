@@ -1,0 +1,160 @@
+{% extends 'helloweb/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- Hero: text + exchange widget -->
+<section class="hero row align-items-center g-5">
+    <div class="col-lg-6">
+        <span class="pill"><span class="pill-dot">●</span> Low 1% fee</span>
+        <h1 class="display-4 fw-bold mt-3">Exchange crypto <span class="text-gradient">fast and simple</span></h1>
+        <p class="lead text-soft mt-3">Bitcoin, Ethereum, USDT and more at a fair rate. No extra steps and no hidden charges.</p>
+
+        <div class="stats">
+            <div class="stat"><div class="stat-num text-gradient">7+</div><div class="stat-label">cryptocurrencies</div></div>
+            <div class="stat"><div class="stat-num text-gradient">15 min</div><div class="stat-label">average exchange time</div></div>
+            <div class="stat"><div class="stat-num text-gradient">24/7</div><div class="stat-label">support</div></div>
+        </div>
+    </div>
+
+    <div class="col-lg-6" id="exchange">
+        <div class="exchange-card">
+            <h2 class="h5 fw-bold mb-3">Quick exchange</h2>
+
+            <div class="swap-label">You send</div>
+            <div class="swap-box">
+                <input id="fromAmount" type="text" inputmode="decimal" value="0.1" autocomplete="off">
+                <select id="fromAsset" aria-label="Asset you send"></select>
+            </div>
+
+            <div class="swap-divider">
+                <button type="button" id="swapBtn" class="swap-btn" aria-label="Swap direction">⇅</button>
+            </div>
+
+            <div class="swap-label">You receive</div>
+            <div class="swap-box">
+                <input id="toAmount" type="text" readonly placeholder="0.00">
+                <select id="toAsset" aria-label="Asset you receive"></select>
+            </div>
+
+            <div id="rateInfo" class="rate-info"></div>
+
+            <button type="button" id="orderBtn" class="btn-main w-100 mt-3">Exchange</button>
+            <div id="demoNote" class="demo-note" hidden>This is a demo version: no real exchanges are performed.</div>
+        </div>
+    </div>
+</section>
+
+<!-- Rates -->
+<h2 class="section-title">Popular pairs</h2>
+<p class="rate-status {% if live %}is-live{% endif %}">
+    {% if live %}● Live rates · updated {{ updated|date:"H:i" }} UTC{% else %}● Demo rates · live data temporarily unavailable{% endif %}
+</p>
+<div class="table-wrap">
+    <table class="table table-custom">
+        <thead>
+            <tr><th>Coin</th><th>Price, USD</th><th>24h change</th></tr>
+        </thead>
+        <tbody>
+        {% for r in rates %}
+            <tr>
+                <td><span class="coin">{{ r.code|slice:":1" }}</span> <strong>{{ r.name }}</strong> <span class="text-soft">{{ r.code }}</span></td>
+                <td>${{ r.price|floatformat:2 }}</td>
+                <td class="{% if r.change > 0 %}up{% elif r.change < 0 %}down{% endif %}">{% if r.change > 0 %}+{% endif %}{{ r.change|floatformat:2 }}%</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'rates' %}" class="btn-sec">All rates</a>
+
+<!-- Advantages -->
+<h2 class="section-title">Why GreenExchange</h2>
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card-custom h-100 mb-0">
+            <div class="card-icon">⚡</div>
+            <h4>Fast</h4>
+            <p>Orders are processed in minutes, not hours.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-custom h-100 mb-0">
+            <div class="card-icon">🔒</div>
+            <h4>Secure</h4>
+            <p>A transparent exchange process with clear terms at every step.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card-custom h-100 mb-0">
+            <div class="card-icon">💬</div>
+            <h4>24/7 support</h4>
+            <p>An operator can help with any question at any time.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ assets|json_script:"assets-data" }}
+<script>
+(function () {
+    const assets = JSON.parse(document.getElementById('assets-data').textContent);
+    const FEE = 0.01;
+
+    const amountEl = document.getElementById('fromAmount');
+    const resultEl = document.getElementById('toAmount');
+    const fromEl   = document.getElementById('fromAsset');
+    const toEl     = document.getElementById('toAsset');
+    const rateEl   = document.getElementById('rateInfo');
+    const swapBtn  = document.getElementById('swapBtn');
+    const orderBtn = document.getElementById('orderBtn');
+    const demoNote = document.getElementById('demoNote');
+
+    assets.forEach(a => {
+        fromEl.add(new Option(a.code, a.code));
+        toEl.add(new Option(a.code, a.code));
+    });
+    fromEl.value = 'BTC';
+    toEl.value = 'USDT';
+
+    const find = code => assets.find(a => a.code === code);
+
+    function fmt(n) {
+        if (!isFinite(n) || n === 0) return '0';
+        if (n >= 1000) return n.toLocaleString('en-US', { maximumFractionDigits: 2 });
+        if (n >= 1)    return n.toFixed(2);
+        return n.toFixed(6);
+    }
+
+    function calc() {
+        const from = find(fromEl.value);
+        const to   = find(toEl.value);
+        const amount = parseFloat(amountEl.value.replace(',', '.')) || 0;
+
+        const out = amount * from.price * (1 - FEE) / to.price;
+        resultEl.value = amount > 0 ? fmt(out) : '';
+
+        const unit = from.price / to.price * (1 - FEE);
+        rateEl.textContent = '1 ' + from.code + ' ≈ ' + fmt(unit) + ' ' + to.code + ' · 1% fee';
+    }
+
+    swapBtn.addEventListener('click', () => {
+        const tmp = fromEl.value;
+        fromEl.value = toEl.value;
+        toEl.value = tmp;
+        calc();
+    });
+
+    orderBtn.addEventListener('click', () => { demoNote.hidden = false; });
+
+    [amountEl, fromEl, toEl].forEach(el => {
+        el.addEventListener('input', calc);
+        el.addEventListener('change', calc);
+    });
+
+    calc();
+})();
+</script>
+{% endblock %}

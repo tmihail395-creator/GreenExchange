@@ -1,0 +1,66 @@
+{% extends 'helloweb/base.html' %}
+
+{% block title %}FAQ{% endblock %}
+
+{% block content %}
+<h1 class="section-title">Frequently asked questions</h1>
+
+<div class="accordion accordion-custom" id="faqList">
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+                What is the exchange fee?
+            </button>
+        </h2>
+        <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqList">
+            <div class="accordion-body">The fee is 1% of the exchange amount and is already included in the calculator's result.</div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+                How long does an exchange take?
+            </button>
+        </h2>
+        <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqList">
+            <div class="accordion-body">Usually about 15 minutes after the network confirms your transfer.</div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
+                Is the rate locked?
+            </button>
+        </h2>
+        <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqList">
+            <div class="accordion-body">Yes, the rate is locked when the order is created and stays valid for the time allowed for payment.</div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q4">
+                Which coins can I exchange?
+            </button>
+        </h2>
+        <div id="q4" class="accordion-collapse collapse" data-bs-parent="#faqList">
+            <div class="accordion-body">BTC, ETH, USDT, BNB, SOL, TON, XRP, as well as US dollars and hryvnia. See the full list on the Rates page.</div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q5">
+                Is this a real service?
+            </button>
+        </h2>
+        <div id="q5" class="accordion-collapse collapse" data-bs-parent="#faqList">
+            <div class="accordion-body">No, this is an educational demo project: the rates are illustrative and no exchanges are performed.</div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

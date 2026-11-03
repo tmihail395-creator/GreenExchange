@@ -1,0 +1,50 @@
+{% extends 'helloweb/base.html' %}
+
+{% block title %}How it works{% endblock %}
+
+{% block content %}
+<h1 class="section-title">How it works</h1>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card-custom step-card h-100 mb-0">
+            <div class="step-num">1</div>
+            <div>
+                <h4>Choose a pair</h4>
+                <p>Select what you send and what you want to receive, then enter the amount. The calculator shows the result instantly.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card-custom step-card h-100 mb-0">
+            <div class="step-num">2</div>
+            <div>
+                <h4>Enter your details</h4>
+                <p>Provide the wallet address or payment details for receiving your funds and confirm the order.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card-custom step-card h-100 mb-0">
+            <div class="step-num">3</div>
+            <div>
+                <h4>Send your funds</h4>
+                <p>Transfer to the details shown by the service. The rate is locked while your order is being processed.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card-custom step-card h-100 mb-0">
+            <div class="step-num">4</div>
+            <div>
+                <h4>Receive the result</h4>
+                <p>Once your transfer is confirmed, the selected currency arrives in your wallet.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'index' %}#exchange" class="btn-main">Try the calculator</a>
+</div>
+{% endblock %}

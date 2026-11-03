@@ -1,0 +1,35 @@
+{% extends 'helloweb/base.html' %}
+
+{% block title %}Rates{% endblock %}
+
+{% block content %}
+<h1 class="section-title">Cryptocurrency rates</h1>
+<p class="rate-status {% if live %}is-live{% endif %}">
+    {% if live %}● Live rates · updated {{ updated|date:"H:i" }} UTC{% else %}● Demo rates · live data temporarily unavailable{% endif %}
+</p>
+
+<div class="table-wrap">
+    <table class="table table-custom">
+        <thead>
+            <tr>
+                <th>Coin</th>
+                <th>Ticker</th>
+                <th>Price, USD</th>
+                <th>24h change</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for r in rates %}
+            <tr>
+                <td><span class="coin">{{ r.code|slice:":1" }}</span> <strong>{{ r.name }}</strong></td>
+                <td>{{ r.code }}</td>
+                <td>${{ r.price|floatformat:2 }}</td>
+                <td class="{% if r.change > 0 %}up{% elif r.change < 0 %}down{% endif %}">{% if r.change > 0 %}+{% endif %}{{ r.change|floatformat:2 }}%</td>
+                <td class="text-end"><a href="{% url 'index' %}#exchange" class="btn-sec btn-small">Exchange</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
