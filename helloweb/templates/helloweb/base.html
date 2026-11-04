@@ -27,6 +27,7 @@
                 <ul class="navbar-nav ms-auto gap-lg-1 align-items-lg-center">
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Home</a></li>
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'rates' %}active{% endif %}" href="{% url 'rates' %}">Rates</a></li>
+                    <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'charts' %}active{% endif %}" href="{% url 'charts' %}">Charts</a></li>
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'how' %}active{% endif %}" href="{% url 'how' %}">How it works</a></li>
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'faq' %}active{% endif %}" href="{% url 'faq' %}">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}" href="{% url 'contacts' %}">Contacts</a></li>
