@@ -136,3 +136,10 @@ try:
     from .local_settings import COINGECKO_API_KEY
 except ImportError:
     COINGECKO_API_KEY = ''
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+
+# True: новые аккаунты неактивны, пока админ не одобрит их в /admin/
+REGISTRATION_REQUIRES_APPROVAL = False

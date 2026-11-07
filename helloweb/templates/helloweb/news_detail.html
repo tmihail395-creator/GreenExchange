@@ -1,0 +1,26 @@
+{% extends 'helloweb/base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<article class="news-article">
+    <a href="{% url 'news' %}" class="back-link">← All news</a>
+
+    {% if article.status != 'published' %}
+        <div class="flash mt-3">Preview: this article is “{{ article.get_status_display }}” and is visible only to staff.</div>
+    {% endif %}
+
+    <h1 class="fw-bold mt-3">{{ article.title }}</h1>
+    <div class="news-date mb-3">{{ article.published_at|default:article.created_at|date:"d M Y, H:i" }}</div>
+
+    <p class="lead text-soft">{{ article.summary }}</p>
+
+    <div class="news-body">{{ article.content|linebreaks }}</div>
+
+    {% if article.source_url %}
+        <p class="mt-4 text-soft">Source:
+            <a href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer nofollow">{{ article.source_url }}</a>
+        </p>
+    {% endif %}
+</article>
+{% endblock %}

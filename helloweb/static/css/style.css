@@ -598,3 +598,146 @@ a:hover { color: #9dff95; }
     .chart-canvas { height: 280px; }
     .chart-card { padding: 16px; }
 }
+/* ==========================================================
+   АВТОРИЗАЦИЯ
+   ========================================================== */
+.auth-wrap { max-width: 460px; margin: 40px auto 0; }
+
+.auth-card {
+    background: linear-gradient(160deg, var(--surface-2) 0%, var(--surface) 100%);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 60px rgba(106, 252, 96, 0.07);
+}
+
+.form-label { color: var(--muted); font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+
+.form-control {
+    background-color: #070c0a;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: #fff;
+    padding: 12px 14px;
+}
+
+.form-control:focus {
+    background-color: #070c0a;
+    color: #fff;
+    border-color: var(--lime);
+    box-shadow: 0 0 0 3px rgba(106, 252, 96, 0.12);
+}
+
+.field-error { color: var(--down); font-size: 14px; margin-top: 6px; }
+.field-help  { color: var(--muted); font-size: 13px; margin-top: 6px; }
+.field-help ul { padding-left: 18px; margin: 6px 0 0; }
+
+/* Сообщения (успех, ошибка) */
+.flash {
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: rgba(125, 158, 150, 0.12);
+    font-weight: 600;
+}
+.flash.success { border-color: rgba(106, 252, 96, 0.4); color: var(--lime); }
+.flash.error   { border-color: rgba(255, 107, 107, 0.4); color: var(--down); }
+
+/* Пункты меню: имя пользователя и кнопка выхода */
+.nav-user { display: inline-block; padding: 8px 12px; color: #fff; font-weight: 700; }
+
+.navbar-custom .nav-btn {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* меню сворачивается до 1200px (navbar-expand-xl) */
+@media (max-width: 1199.98px) {
+    .navbar-custom .navbar-collapse { margin-top: 12px; padding: 8px 0 12px; }
+    .navbar-custom .nav-link { padding: 10px 14px; }
+}
+/* ==========================================================
+   НОВОСТИ
+   ========================================================== */
+.news-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.news-date {
+    color: var(--lime);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.news-card h4 a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.news-card h4 a:hover { color: var(--lime); }
+
+.news-more {
+    display: inline-block;
+    margin-top: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.pager {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    color: var(--muted);
+}
+
+.pager a { font-weight: 700; text-decoration: none; }
+
+.news-article { max-width: 780px; margin: 40px auto 0; }
+.back-link { text-decoration: none; font-weight: 700; }
+.news-body { line-height: 1.8; }
+.news-body p { color: rgba(242, 247, 244, 0.85); }
+
+/* Статусы заявок */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-badge.pending   { color: #ffd166; border-color: rgba(255, 209, 102, 0.4); }
+.status-badge.published { color: var(--lime); border-color: rgba(106, 252, 96, 0.4); }
+.status-badge.rejected  { color: var(--down); border-color: rgba(255, 107, 107, 0.4); }
+
+/* Счётчик заявок в меню админа */
+.badge-count {
+    display: inline-block;
+    min-width: 22px;
+    padding: 1px 7px;
+    margin-left: 4px;
+    border-radius: 999px;
+    background: var(--grad-btn);
+    color: var(--on-accent);
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* меню сворачивается до 1400px (navbar-expand-xxl) */
+@media (max-width: 1399.98px) {
+    .navbar-custom .navbar-collapse { margin-top: 12px; padding: 8px 0 12px; }
+    .navbar-custom .nav-link { padding: 10px 14px; }
+}

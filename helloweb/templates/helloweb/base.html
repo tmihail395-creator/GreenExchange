@@ -16,7 +16,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg fixed-top navbar-custom">
+    <nav class="navbar navbar-expand-xxl fixed-top navbar-custom">
         <div class="container">
             <a class="navbar-brand" href="{% url 'index' %}"><span class="logo-dot"></span>GreenExchange</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
@@ -24,14 +24,35 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav ms-auto gap-lg-1 align-items-lg-center">
+                <ul class="navbar-nav ms-auto gap-xxl-1 align-items-xxl-center">
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">Home</a></li>
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'rates' %}active{% endif %}" href="{% url 'rates' %}">Rates</a></li>
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'charts' %}active{% endif %}" href="{% url 'charts' %}">Charts</a></li>
+                    <li class="nav-item"><a class="nav-link {% if 'news' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'news' %}">News</a></li>
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'how' %}active{% endif %}" href="{% url 'how' %}">How it works</a></li>
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'faq' %}active{% endif %}" href="{% url 'faq' %}">FAQ</a></li>
                     <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}" href="{% url 'contacts' %}">Contacts</a></li>
-                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0"><a class="btn-main btn-nav" href="{% url 'index' %}#exchange">Exchange</a></li>
+
+                    {% if user.is_authenticated %}
+                        {% if user.is_staff %}
+                            {% if pending_news %}
+                                <li class="nav-item ms-xxl-2"><a class="nav-link" href="/admin/helloweb/news/?status__exact=pending">Requests <span class="badge-count">{{ pending_news }}</span></a></li>
+                            {% endif %}
+                            <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
+                        {% endif %}
+                        <li class="nav-item ms-xxl-2"><span class="nav-user">👤 {{ user.username }}</span></li>
+                        <li class="nav-item">
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="nav-link nav-btn">Log out</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item ms-xxl-2"><a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">Log in</a></li>
+                        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'register' %}active{% endif %}" href="{% url 'register' %}">Sign up</a></li>
+                    {% endif %}
+
+                    <li class="nav-item ms-xxl-3 mt-2 mt-xxl-0"><a class="btn-main btn-nav" href="{% url 'index' %}#exchange">Exchange</a></li>
                 </ul>
             </div>
         </div>
@@ -51,6 +72,14 @@
     </div>
 
     <main class="container">
+        {% if messages %}
+            <div class="mt-4">
+                {% for message in messages %}
+                    <div class="flash {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {% block content %}{% endblock %}
     </main>
 

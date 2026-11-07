@@ -1,0 +1,43 @@
+{% extends 'helloweb/base.html' %}
+
+{% block title %}My requests{% endblock %}
+
+{% block content %}
+<h1 class="section-title">My news requests</h1>
+
+<div class="news-toolbar">
+    <p class="text-soft mb-0">Track the status of the news you sent to the administrator.</p>
+    <a href="{% url 'news_submit' %}" class="btn-main btn-small">Suggest news</a>
+</div>
+
+{% if items %}
+<div class="table-wrap">
+    <table class="table table-custom">
+        <thead>
+            <tr><th>Title</th><th>Status</th><th>Sent</th><th>Note from administrator</th></tr>
+        </thead>
+        <tbody>
+        {% for n in items %}
+            <tr>
+                <td>
+                    {% if n.status == 'published' %}
+                        <a href="{% url 'news_detail' n.pk %}">{{ n.title }}</a>
+                    {% else %}
+                        {{ n.title }}
+                    {% endif %}
+                </td>
+                <td><span class="status-badge {{ n.status }}">{{ n.get_status_display }}</span></td>
+                <td>{{ n.created_at|date:"d M Y" }}</td>
+                <td class="text-soft">{{ n.admin_note|default:"—" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+    <div class="card-custom">
+        <h4>No requests yet</h4>
+        <p>Send your first news item to the administrator.</p>
+    </div>
+{% endif %}
+{% endblock %}

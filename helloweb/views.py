@@ -1,4 +1,9 @@
-from django.shortcuts import render
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import login
+from django.shortcuts import redirect, render
+
+from .forms import RegisterForm
 from .services import get_market
 
 
@@ -31,3 +36,31 @@ def faq(request):
 
 def contacts(request):
     return render(request, 'helloweb/contacts.html')
+
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+
+            if getattr(settings, 'REGISTRATION_REQUIRES_APPROVAL', False):
+                user.is_active = False
+                user.save()
+                messages.success(
+                    request,
+                    "Account created. An administrator must approve it before you can log in.",
+                )
+                return redirect('login')
+
+            user.save()
+            login(request, user)
+            messages.success(request, "Welcome! Your account has been created.")
+            return redirect('index')
+    else:
+        form = RegisterForm()
+
+    return render(request, 'helloweb/register.html', {'form': form})
