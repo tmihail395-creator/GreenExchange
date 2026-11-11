@@ -741,3 +741,24 @@ a:hover { color: #9dff95; }
     .navbar-custom .navbar-collapse { margin-top: 12px; padding: 8px 0 12px; }
     .navbar-custom .nav-link { padding: 10px 14px; }
 }
+/* Ловушка для ботов: скрыта от людей */
+.hp-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Страницы ошибок */
+.error-page {
+    text-align: center;
+    padding: 80px 0 40px;
+}
+
+.error-code {
+    font-size: 96px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 12px;
+}

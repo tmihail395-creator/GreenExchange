@@ -17,6 +17,7 @@ ALLOWED_DAYS = [1, 7, 30, 90, 365]
 CACHE_SECONDS = 900         # 15 минут: экономим лимит бесплатного ключа
 ERROR_CACHE_SECONDS = 120
 MAX_POINTS = 300            # больше точек на графике не нужно
+CACHE_BY_DAYS = {1: 900, 7: 1800, 30: 3600, 90: 21600, 365: 21600}
 
 
 def _downsample(points):
@@ -54,7 +55,7 @@ def get_chart(code, days):
 
     try:
         data = {"ok": True, "points": _fetch_chart(COIN_IDS[code], days)}
-        cache.set(key, data, CACHE_SECONDS)
+        cache.set(key, data, CACHE_BY_DAYS.get(days, 3600))
     except Exception as e:
         print("CoinGecko chart error:", e)   # причина появится в консоли PyCharm
         data = {"ok": False, "points": []}

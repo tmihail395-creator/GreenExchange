@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta name="description" content="GreenExchange: live crypto rates, charts and news. Educational demo project.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%236afc60'/%3E%3C/svg%3E">
     <title>{% block title %}GreenExchange{% endblock %} — GreenExchange</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -87,7 +89,7 @@
         <div class="container">
             <div class="footer-brand"><span class="logo-dot"></span>GreenExchange</div>
             <p class="mb-1">© {% now "Y" %} GreenExchange. Educational demo project.</p>
-            <p class="mb-0 small">Market data by CoinGecko. This is a demo project: no real exchanges are performed.</p>
+            <p class="mb-0 small">Market data by CoinGecko. This is a demo project: no real exchanges are performed. · <a href="{% url 'legal' %}">Terms &amp; Privacy</a></p>
         </div>
     </footer>
 

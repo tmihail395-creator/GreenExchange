@@ -1,5 +1,6 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
+from django.views.generic import TemplateView
 
 from . import views, charts, news
 from .forms import LoginForm
@@ -18,6 +19,9 @@ urlpatterns = [
     path('how-it-works', views.how, name='how'),
     path('faq', views.faq, name='faq'),
     path('contacts', views.contacts, name='contacts'),
+    path('legal', TemplateView.as_view(template_name='helloweb/legal.html'), name='legal'),
+    path('robots.txt', TemplateView.as_view(template_name='helloweb/robots.txt',
+                                            content_type='text/plain'), name='robots'),
 
     path('register', views.register, name='register'),
     path('login', auth_views.LoginView.as_view(

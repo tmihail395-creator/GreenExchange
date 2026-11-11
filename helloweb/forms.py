@@ -6,12 +6,19 @@ User = get_user_model()
 
 
 def _style_fields(form):
-    for field in form.fields.values():
-        field.widget.attrs["class"] = "form-control"
+    for name, field in form.fields.items():
+        if name != "hp":
+            field.widget.attrs["class"] = "form-control"
 
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
+
+    # поле-ловушка: человек его не видит, а простые боты заполняют
+    hp = forms.CharField(
+        required=False, label="",
+        widget=forms.TextInput(attrs={"tabindex": "-1", "autocomplete": "off"}),
+    )
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -20,6 +27,11 @@ class RegisterForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         _style_fields(self)
+
+    def clean_hp(self):
+        if self.cleaned_data.get("hp"):
+            raise forms.ValidationError("Spam detected.")
+        return ""
 
     def clean_email(self):
         email = self.cleaned_data["email"].lower()
@@ -38,7 +50,6 @@ class LoginForm(AuthenticationForm):
         password = self.cleaned_data.get("password")
         if username and password:
             user = User.objects.filter(username=username).first()
-            # понятное сообщение для заблокированных или ещё не одобренных аккаунтов
             if user and not user.is_active and user.check_password(password):
                 raise forms.ValidationError(
                     "This account is not active. It is waiting for administrator "

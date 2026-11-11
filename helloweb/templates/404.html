@@ -1,0 +1,12 @@
+{% extends 'helloweb/base.html' %}
+
+{% block title %}Page not found{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-code text-gradient">404</div>
+    <h1 class="h3 fw-bold">Page not found</h1>
+    <p class="text-soft">The page you are looking for does not exist or has been moved.</p>
+    <a href="{% url 'index' %}" class="btn-main">Back to home</a>
+</div>
+{% endblock %}
